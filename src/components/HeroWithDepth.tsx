@@ -27,8 +27,8 @@ export default function HeroWithDepth() {
         />
       </div>
 
-      <div className="container mx-auto px-6 lg:px-8 py-12 lg:py-20 relative z-10">
-        <div className="grid lg:grid-cols-[44%_56%] gap-12 lg:gap-16 items-center">
+      <div className="container mx-auto px-6 lg:px-8 pt-24 pb-12 lg:pt-32 lg:pb-20 relative z-10">
+        <div className="lg:grid lg:grid-cols-[44%_56%] gap-12 lg:gap-16 items-center">
           
           {/* LEFT SIDE - Content */}
           <div 
@@ -72,6 +72,84 @@ export default function HeroWithDepth() {
                   }}
                 />
                 <div className="w-1.5 h-1.5 rounded-full bg-gold shadow-[0_0_8px_rgba(240,180,41,0.6)]" />
+              </div>
+            </div>
+
+            {/* MOBILE CARDS - Shown only on mobile between title and description */}
+            <div className="lg:hidden relative w-full space-y-4 py-4">
+              {/* Main card - Patagonia */}
+              <div 
+                className="w-full h-64 rounded-3xl overflow-hidden relative"
+                style={{
+                  border: '1.5px solid rgba(245, 180, 40, 0.7)',
+                  boxShadow: '0 15px 40px rgba(0, 0, 0, 0.3)',
+                }}
+              >
+                <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-black/40 to-transparent z-10" />
+                <img 
+                  src="/imagenes/avistajeball.jpg"
+                  alt="Patagonia"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute top-4 left-4 flex items-center gap-2 z-20">
+                  <svg className="w-4 h-4 text-gold" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                  </svg>
+                  <span className="text-white text-xs font-semibold uppercase tracking-wider" style={{ textShadow: '0 2px 12px rgba(0, 0, 0, 0.8)' }}>
+                    Patagonia
+                  </span>
+                </div>
+              </div>
+
+              {/* Two smaller cards below */}
+              <div className="grid grid-cols-2 gap-4">
+                {/* Valle del Té */}
+                <div 
+                  className="relative h-48 rounded-2xl overflow-hidden"
+                  style={{
+                    border: '1.5px solid rgba(245, 180, 40, 0.7)',
+                    boxShadow: '0 10px 30px rgba(0, 0, 0, 0.25)',
+                  }}
+                >
+                  <div className="absolute top-0 left-0 right-0 h-12 bg-gradient-to-b from-black/40 to-transparent z-10" />
+                  <img 
+                    src="/imagenes/tegales.jpg"
+                    alt="Valle del Té"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute top-3 left-3 flex items-center gap-1.5 z-20">
+                    <svg className="w-3 h-3 text-gold" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                    </svg>
+                    <span className="text-white text-[10px] font-semibold uppercase tracking-wider" style={{ textShadow: '0 2px 12px rgba(0, 0, 0, 0.8)' }}>
+                      Valle del Té
+                    </span>
+                  </div>
+                </div>
+
+                {/* Punta Tombo */}
+                <div 
+                  className="relative h-48 rounded-2xl overflow-hidden"
+                  style={{
+                    border: '1.5px solid rgba(245, 180, 40, 0.7)',
+                    boxShadow: '0 10px 30px rgba(0, 0, 0, 0.25)',
+                  }}
+                >
+                  <div className="absolute top-0 left-0 right-0 h-12 bg-gradient-to-b from-black/40 to-transparent z-10" />
+                  <img 
+                    src="/imagenes/puntatombo.jpg"
+                    alt="Punta Tombo"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute top-3 left-3 flex items-center gap-1.5 z-20">
+                    <svg className="w-3 h-3 text-gold" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                    </svg>
+                    <span className="text-white text-[10px] font-semibold uppercase tracking-wider" style={{ textShadow: '0 2px 12px rgba(0, 0, 0, 0.8)' }}>
+                      Punta Tombo
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -132,8 +210,8 @@ export default function HeroWithDepth() {
             </div>
           </div>
 
-          {/* RIGHT SIDE - Photo Cards */}
-          <div className="relative h-[500px] sm:h-[600px] lg:h-[660px]">
+          {/* RIGHT SIDE - Photo Cards (Desktop only) */}
+          <div className="hidden lg:block relative h-[500px] sm:h-[600px] lg:h-[660px]">
             {/* Cards Container */}
             <div className="relative w-full h-full">
               
@@ -220,7 +298,8 @@ export default function HeroWithDepth() {
                       className="text-white text-xs font-semibold uppercase tracking-wider"
                       style={{ textShadow: '0 2px 12px rgba(0, 0, 0, 0.8), 0 1px 3px rgba(0, 0, 0, 0.9)' }}
                     >
-                      Valle del Té
+                    Té Gales
+                
                     </span>
                   </div>
                   
@@ -339,84 +418,6 @@ export default function HeroWithDepth() {
                       <h4 className="text-white font-semibold text-sm mb-0.5">Acompañamiento en cada etapa</h4>
                       <p className="text-gray-400 text-xs">Antes, durante y después de tu viaje</p>
                     </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Mobile Alternative Layout (< 768px) */}
-            <div className="lg:hidden relative w-full space-y-4">
-              {/* Main card - Patagonia */}
-              <div 
-                className="w-full h-64 rounded-3xl overflow-hidden"
-                style={{
-                  border: '1.5px solid rgba(245, 180, 40, 0.7)',
-                  boxShadow: '0 15px 40px rgba(0, 0, 0, 0.3)',
-                }}
-              >
-                <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-black/40 to-transparent z-10" />
-                <img 
-                  src="/imagenes/avistajeball.jpg"
-                  alt="Patagonia"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute top-4 left-4 flex items-center gap-2 z-20">
-                  <svg className="w-4 h-4 text-gold" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-                  </svg>
-                  <span className="text-white text-xs font-semibold uppercase tracking-wider" style={{ textShadow: '0 2px 12px rgba(0, 0, 0, 0.8)' }}>
-                    Patagonia
-                  </span>
-                </div>
-              </div>
-
-              {/* Two smaller cards below */}
-              <div className="grid grid-cols-2 gap-4">
-                {/* Valle del Té */}
-                <div 
-                  className="relative h-48 rounded-2xl overflow-hidden"
-                  style={{
-                    border: '1.5px solid rgba(245, 180, 40, 0.7)',
-                    boxShadow: '0 10px 30px rgba(0, 0, 0, 0.25)',
-                  }}
-                >
-                  <div className="absolute top-0 left-0 right-0 h-12 bg-gradient-to-b from-black/40 to-transparent z-10" />
-                  <img 
-                    src="/imagenes/tegales.jpg"
-                    alt="Valle del Té"
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute top-3 left-3 flex items-center gap-1.5 z-20">
-                    <svg className="w-3 h-3 text-gold" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-                    </svg>
-                    <span className="text-white text-[10px] font-semibold uppercase tracking-wider" style={{ textShadow: '0 2px 12px rgba(0, 0, 0, 0.8)' }}>
-                      Valle del Té
-                    </span>
-                  </div>
-                </div>
-
-                {/* Punta Tombo */}
-                <div 
-                  className="relative h-48 rounded-2xl overflow-hidden"
-                  style={{
-                    border: '1.5px solid rgba(245, 180, 40, 0.7)',
-                    boxShadow: '0 10px 30px rgba(0, 0, 0, 0.25)',
-                  }}
-                >
-                  <div className="absolute top-0 left-0 right-0 h-12 bg-gradient-to-b from-black/40 to-transparent z-10" />
-                  <img 
-                    src="/imagenes/puntatombo.jpg"
-                    alt="Punta Tombo"
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute top-3 left-3 flex items-center gap-1.5 z-20">
-                    <svg className="w-3 h-3 text-gold" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-                    </svg>
-                    <span className="text-white text-[10px] font-semibold uppercase tracking-wider" style={{ textShadow: '0 2px 12px rgba(0, 0, 0, 0.8)' }}>
-                      Punta Tombo
-                    </span>
                   </div>
                 </div>
               </div>
