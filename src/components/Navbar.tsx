@@ -1,25 +1,44 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import MobileMenu from './MobileMenu';
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeLink, setActiveLink] = useState('inicio');
+  const [scrolled, setScrolled] = useState(false);
 
   const links = [
-    { name: 'Inicio', href: '#inicio', id: 'inicio' },
-    { name: 'Destinos', href: '#destinos', id: 'destinos' },
-    { name: 'Experiencias', href: '#experiencias', id: 'experiencias' },
-    { name: 'Nosotros', href: '#nosotros', id: 'nosotros' },
-    { name: 'Contacto', href: '#contacto', id: 'contacto' },
+    { name: 'Inicio', href: '/', id: 'inicio' },
+    { name: 'Destinos', href: '/#destinos', id: 'destinos' },
+    { name: 'Experiencias', href: '/#experiencias', id: 'experiencias' },
+    { name: 'Nosotros', href: '/#nosotros', id: 'nosotros' },
+    { name: 'Contacto', href: '/#contacto', id: 'contacto' },
   ];
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-navy-light border-b border-gold/10">
+      <nav 
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+        style={{
+          backgroundColor: scrolled ? 'rgba(10, 20, 32, 0.85)' : 'rgba(10, 20, 32, 0.5)',
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
+          borderBottom: `1px solid ${scrolled ? 'rgba(240, 180, 41, 0.2)' : 'rgba(240, 180, 41, 0.1)'}`,
+          boxShadow: scrolled ? '0 4px 24px rgba(0, 0, 0, 0.3)' : 'none',
+        }}
+      >
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <a href="#inicio" className="flex items-center gap-3">
+            <a href="/" className="flex items-center gap-3">
               <div className="w-12 h-12 rounded-full border-2 border-gold flex items-center justify-center">
                 <svg className="w-6 h-6 text-gold" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 2L2 12h3v8h14v-8h3L12 2zm0 2.8l6 6V18h-4v-5H10v5H6v-7.2l6-6z"/>

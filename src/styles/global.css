@@ -1,8 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
 @layer base {
   body {
@@ -17,5 +17,72 @@
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+  
+  .text-shadow-lg {
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Shimmer effect for buttons */
+  @keyframes shimmer {
+    0% {
+      background-position: -200% center;
+    }
+    100% {
+      background-position: 200% center;
+    }
+  }
+
+  .btn-shimmer {
+    background-size: 200% auto;
+    background-image: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0) 40%,
+      rgba(255, 255, 255, 0.3) 50%,
+      rgba(255, 255, 255, 0) 60%,
+      rgba(255, 255, 255, 0) 100%
+    );
+  }
+
+  .btn-shimmer:hover {
+    animation: shimmer 2s linear infinite;
+  }
+
+  /* Pulse animation */
+  @keyframes pulse-gold {
+    0%, 100% {
+      box-shadow: 0 8px 24px rgba(240, 180, 41, 0.35), 0 0 20px rgba(240, 180, 41, 0.15);
+    }
+    50% {
+      box-shadow: 0 8px 32px rgba(240, 180, 41, 0.5), 0 0 30px rgba(240, 180, 41, 0.25);
+    }
+  }
+
+  .btn-pulse {
+    animation: pulse-gold 3s ease-in-out infinite;
+  }
+
+  /* Card hover elevation */
+  .card-hover {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .card-hover:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Image zoom on hover */
+  .img-zoom {
+    overflow: hidden;
+  }
+
+  .img-zoom img {
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .img-zoom:hover img {
+    transform: scale(1.08);
   }
 }

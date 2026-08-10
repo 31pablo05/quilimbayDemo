@@ -1,0 +1,223 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar';
+import { destinos, type Destino } from '../../data/destinos';
+
+export function getStaticPaths() {
+  return destinos.map((destino) => ({
+    params: { slug: destino.slug },
+    props: { destino },
+  }));
+}
+
+interface Props {
+  destino: Destino;
+}
+
+const { destino } = Astro.props;
+
+// Obtener destinos relacionados (misma categoría, máximo 3)
+const destinosRelacionados = destinos
+  .filter((d) => d.categoria === destino.categoria && d.slug !== destino.slug)
+  .slice(0, 3);
+
+// Mensaje prellenado para WhatsApp
+const mensajeWhatsApp = `Hola! Me gustaría consultar por un viaje a ${destino.nombre}`;
+const whatsappUrl = `https://wa.me/5492804581234?text=${encodeURIComponent(mensajeWhatsApp)}`;
+---
+
+<Layout title={`${destino.nombre} - Quilimbay Turismo`}>
+  <Navbar client:load />
+
+  <!-- Header con imagen de portada -->
+  <section class="relative h-[70vh] min-h-[500px] flex items-end pt-20">
+    <img 
+      src={destino.imagenPortada} 
+      alt={destino.nombre}
+      class="absolute inset-0 w-full h-full object-cover"
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/60 to-transparent"></div>
+    
+    <div class="container mx-auto px-4 pb-12 relative z-10">
+      <!-- Breadcrumb -->
+      <nav class="text-sm mb-4">
+        <a href="/" class="text-gray-300 hover:text-gold transition-colors">Inicio</a>
+        <span class="text-gray-400 mx-2">/</span>
+        <a href="/#destinos" class="text-gray-300 hover:text-gold transition-colors">Destinos</a>
+        <span class="text-gray-400 mx-2">/</span>
+        <span class="text-white">{destino.nombre}</span>
+      </nav>
+
+      <!-- Título -->
+      <h1 class="text-5xl md:text-7xl font-bold text-white font-serif">{destino.nombre}</h1>
+    </div>
+  </section>
+
+  <!-- Contenido principal -->
+  <section class="py-16 bg-navy">
+    <div class="container mx-auto px-4">
+      <div class="grid lg:grid-cols-3 gap-8 lg:gap-12">
+        <!-- Columna izquierda: Contenido -->
+        <div class="lg:col-span-2 space-y-12">
+          <!-- Descripción -->
+          <div class="space-y-4">
+            {destino.descripcion.map((parrafo) => (
+              <p class="text-gray-300 text-lg leading-relaxed">{parrafo}</p>
+            ))}
+          </div>
+
+          <!-- Qué incluye -->
+          <div>
+            <h2 class="text-3xl font-bold text-white mb-6 font-serif">Qué incluye nuestro asesoramiento</h2>
+            <div class="grid md:grid-cols-2 gap-4">
+              {destino.queIncluye.map((item) => (
+                <div class="flex items-start gap-4 bg-navy-lighter border border-gold/10 rounded-lg p-4">
+                  <div class="w-10 h-10 flex-shrink-0 rounded-full border-2 border-gold flex items-center justify-center">
+                    <svg class="w-5 h-5 text-gold" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d={item.icono} clip-rule="evenodd" />
+                    </svg>
+                  </div>
+                  <p class="text-gray-300">{item.texto}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <!-- Mejor época -->
+          <div>
+            <h2 class="text-3xl font-bold text-white mb-4 font-serif">Mejor época para viajar</h2>
+            <div class="bg-navy-lighter border border-gold/20 rounded-lg p-6">
+              <p class="text-gray-300 text-lg">{destino.mejorEpoca}</p>
+            </div>
+          </div>
+
+          <!-- Galería -->
+          <div>
+            <h2 class="text-3xl font-bold text-white mb-6 font-serif">Galería</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+              {destino.galeria.map((imagen, index) => (
+                <div class="relative h-48 rounded-lg overflow-hidden group cursor-pointer">
+                  <img 
+                    src={imagen} 
+                    alt={`${destino.nombre} ${index + 1}`}
+                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300"></div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <!-- Columna derecha: Panel de consulta (sticky en desktop) -->
+        <div class="lg:col-span-1">
+          <div class="sticky top-24 bg-navy-lighter border-2 border-gold/20 rounded-lg p-6 shadow-xl hidden lg:block">
+            <h3 class="text-xl font-bold text-white mb-2">{destino.nombre}</h3>
+            <p class="text-gray-400 text-sm mb-6">Consulta sin compromiso</p>
+            
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="w-full flex items-center justify-center gap-3 bg-gold text-navy px-6 py-4 rounded-lg font-bold text-lg hover:bg-gold-dark transition-all mb-4"
+            >
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+              </svg>
+              Consultar por {destino.nombre}
+            </a>
+            
+            <p class="text-gray-400 text-sm text-center">
+              Respuesta rápida y atención personalizada
+            </p>
+
+            <div class="mt-6 pt-6 border-t border-gold/20">
+              <div class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-gold flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                </svg>
+                <div>
+                  <p class="text-white font-semibold text-sm">+54 9 280 458-1234</p>
+                  <p class="text-gray-400 text-xs">Lun a Vie 9:00 - 18:00hs</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Botón flotante en mobile -->
+  <a
+    href={whatsappUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-gold text-navy px-6 py-4 font-bold text-center shadow-2xl flex items-center justify-center gap-2"
+  >
+    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+    </svg>
+    Consultar por {destino.nombre}
+  </a>
+
+  <!-- Te puede interesar -->
+  {destinosRelacionados.length > 0 && (
+    <section class="py-20 bg-navy-light">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-white mb-12 text-center font-serif">Te puede interesar</h2>
+        
+        <div class="grid md:grid-cols-3 gap-6">
+          {destinosRelacionados.map((destino) => (
+            <a 
+              href={`/destinos/${destino.slug}`}
+              class="group relative h-80 rounded-lg overflow-hidden cursor-pointer"
+            >
+              <img 
+                src={destino.imagenPortada} 
+                alt={destino.nombre}
+                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/50 to-transparent"></div>
+              <div class="absolute inset-0 flex flex-col justify-end p-6">
+                <h3 class="text-white font-bold text-2xl mb-3">{destino.nombre}</h3>
+                <div class="flex items-center gap-2 text-gold">
+                  <span class="text-sm font-semibold">Ver más</span>
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                  </svg>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Footer simplificado -->
+  <footer class="bg-navy py-12 border-t border-gold/20">
+    <div class="container mx-auto px-4 text-center">
+      <a href="/" class="inline-flex items-center gap-3 mb-6">
+        <div class="w-10 h-10 rounded-full border-2 border-gold flex items-center justify-center">
+          <svg class="w-5 h-5 text-gold" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2L2 12h3v8h14v-8h3L12 2zm0 2.8l6 6V18h-4v-5H10v5H6v-7.2l6-6z"/>
+          </svg>
+        </div>
+        <div class="flex flex-col items-start">
+          <span class="text-white text-lg font-bold leading-tight">Quilimbay</span>
+          <span class="text-gold text-xs tracking-[0.2em] leading-tight">TURISMO</span>
+        </div>
+      </a>
+      <p class="text-gray-400 text-sm">
+        © 2024 Quilimbay Turismo. Todos los derechos reservados.
+      </p>
+    </div>
+  </footer>
+</Layout>
+
+<style>
+  html {
+    scroll-behavior: smooth;
+  }
+</style>

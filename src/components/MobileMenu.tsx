@@ -9,11 +9,11 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   if (!isOpen) return null;
 
   const links = [
-    { name: 'Inicio', href: '#inicio' },
-    { name: 'Destinos', href: '#destinos' },
-    { name: 'Experiencias', href: '#experiencias' },
-    { name: 'Nosotros', href: '#nosotros' },
-    { name: 'Contacto', href: '#contacto' },
+    { name: 'Inicio', href: '/' },
+    { name: 'Destinos', href: '/#destinos' },
+    { name: 'Experiencias', href: '/#experiencias' },
+    { name: 'Nosotros', href: '/#nosotros' },
+    { name: 'Contacto', href: '/#contacto' },
   ];
 
   return (
