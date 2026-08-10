@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -6,7 +6,23 @@ interface MobileMenuProps {
 }
 
 export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
-  if (!isOpen) return null;
+  const [shouldRender, setShouldRender] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      setShouldRender(true);
+      // Pequeño delay para que la animación de entrada se vea
+      setTimeout(() => setIsAnimating(true), 10);
+    } else {
+      setIsAnimating(false);
+      // Esperar a que termine la animación de salida antes de desmontar
+      const timeout = setTimeout(() => setShouldRender(false), 200);
+      return () => clearTimeout(timeout);
+    }
+  }, [isOpen]);
+
+  if (!shouldRender) return null;
 
   const links = [
     { name: 'Inicio', href: '/' },
@@ -18,44 +34,40 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
 
   return (
     <div className="fixed inset-0 z-50 md:hidden">
-      {/* Overlay */}
+      {/* Overlay invisible - solo para capturar clicks fuera del panel */}
       <div 
-        className="absolute inset-0 bg-black/70"
+        className="absolute inset-0 z-10"
         onClick={onClose}
-      ></div>
+      />
       
-      {/* Menu */}
-      <div className="absolute right-0 top-0 h-full w-64 bg-navy-light border-l border-gold/20">
-        <div className="flex flex-col p-6">
-          <button
-            onClick={onClose}
-            className="self-end text-white text-2xl mb-8"
-          >
-            ×
-          </button>
-          
-          <nav className="flex flex-col gap-4">
-            {links.map((link) => (
+      {/* Panel dropdown compacto */}
+      <div 
+        className="absolute right-0 w-[220px] bg-navy-light border-l border-b border-gold/20 rounded-bl-lg shadow-lg z-20"
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          top: '80px',
+          opacity: isAnimating ? 1 : 0,
+          transform: isAnimating ? 'scale(1)' : 'scale(0.95)',
+          transformOrigin: 'top right',
+          transition: 'opacity 200ms ease-out, transform 200ms ease-out',
+        }}
+      >
+        <nav className="py-2">
+          {links.map((link, index) => (
+            <div key={link.href}>
               <a
-                key={link.href}
                 href={link.href}
                 onClick={onClose}
-                className="text-white text-lg py-2 border-b border-gold/20 hover:text-gold transition-colors"
+                className="block px-5 py-3 text-white text-sm hover:text-gold hover:bg-gold/5 transition-colors duration-200"
               >
                 {link.name}
               </a>
-            ))}
-            
-            <a
-              href="https://wa.me/5492804581234"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-4 bg-gold text-navy py-3 px-6 rounded-md font-semibold text-center hover:bg-gold-dark transition-colors"
-            >
-              WhatsApp
-            </a>
-          </nav>
-        </div>
+              {index < links.length - 1 && (
+                <div className="mx-4 h-px bg-gold/10" />
+              )}
+            </div>
+          ))}
+        </nav>
       </div>
     </div>
   );

@@ -17,7 +17,7 @@ export const destinos: Destino[] = [
     slug: 'salta',
     nombre: 'Salta',
     categoria: 'nacional',
-    imagenPortada: 'https://images.unsplash.com/photo-1580654712603-eb43273aff33?w=1200&q=80',
+    imagenPortada: '/imagenes/Salta.jpg',
     descripcion: [
       'Salta te invita a descubrir paisajes únicos donde la naturaleza pinta con colores imposibles. La Quebrada de Humahuaca y el Cerro de los 14 Colores son postales vivientes que cambian con cada hora del día, mientras que los valles Calchaquíes ofrecen vinos de altura y pueblos que conservan la esencia del norte argentino.',
       'Cada rincón de Salta cuenta historias: desde las calles coloniales de la capital hasta las salinas de altura, pasando por Cafayate y sus bodegas boutique. Aquí el tiempo se toma con calma, los atardeceres son ceremonias diarias y cada comida es un encuentro con sabores ancestrales.',
@@ -69,7 +69,7 @@ export const destinos: Destino[] = [
     slug: 'ushuaia',
     nombre: 'Ushuaia',
     categoria: 'nacional',
-    imagenPortada: 'https://images.unsplash.com/photo-1590767950092-42b8362368da?w=1200&q=80',
+    imagenPortada: '/imagenes/ushua.jpg',
     descripcion: [
       'En el fin del mundo, donde la cordillera se encuentra con el mar, Ushuaia te espera con paisajes que cortan la respiración. El Canal Beagle, el Parque Nacional Tierra del Fuego, la Laguna Esmeralda: cada rincón es una postal que parece de otro planeta.',
       'Acá el invierno es pura magia con nieve y esquí, mientras que el verano ofrece días largos perfectos para trekkings y navegaciones. La historia se respira en cada puerto, en el antiguo presidio, en las historias de pioneros que eligieron quedarse en este extremo del continente.',
