@@ -57,9 +57,9 @@ export default function HeroWithDepth() {
                   fontSize: 'clamp(3rem, 5.3vw, 6.5rem)',
                 }}
               >
-                <span className="block text-white">Viajá acompañado,</span>
-                <span className="block text-gold">no solo</span>
-                <span className="block text-gold">transportado</span>
+                <span className="block text-white">No somos una plataforma,</span>
+                <span className="block text-gold"></span>
+                <span className="block text-gold">Somos tu agencia</span>
               </h1>
               
               {/* Decorative line */}
